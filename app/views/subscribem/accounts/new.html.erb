@@ -2,6 +2,19 @@
 <%= form_for(@account) do |account| %>
 	<%= account.label :name %>
 	<%= account.text_field :name %>
+
+	<%= account.fields_for :owner do |owner| %>
+
+	<%= owner.label :email %>
+	<%= owner.email_field :email  %>
+	
+
+	<%= owner.label :password %>
+	<%= owner.password_field :password  %>
+	
+	<%= owner.label :password_confirmation %>
+	<%= owner.password_field :password_confirmation  %>
+	<% end %>
 	
 	<%= account.submit %>
 	<% end %>
