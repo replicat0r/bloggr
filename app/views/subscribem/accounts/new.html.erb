@@ -1,8 +1,12 @@
 <h2> Sign Up</h2>
 <%= form_for(@account) do |account| %>
+<%= account.error_messages %>
 	<%= account.label :name %>
 	<%= account.text_field :name %>
 
+	<%= account.label :subdomain %>
+	<%= account.text_field :subdomain %>
+	
 	<%= account.fields_for :owner do |owner| %>
 
 	<%= owner.label :email %>

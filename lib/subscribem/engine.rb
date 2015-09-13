@@ -1,6 +1,7 @@
 module Subscribem
   class Engine < ::Rails::Engine
   	require 'warden'
+  	require 'dynamic_form'
     isolate_namespace Subscribem
 
     config.generators do |g|
