@@ -30,11 +30,26 @@ feature "User Sign In" do
     end
 
     scenario "attempts sign in with an invalid email address and fails" do
-      visit root_url
+      visit subscribem.root_url(:subdomain => account.subdomain)
       expect(page.current_url).to eq(sign_in_url)
       expect(page).to have_content("Please sign in.")
 
       fill_in "Email", with: "foot@example.com"
+      fill_in "Password", with: "password"
+      click_button "Sign In"
+      expect(page).to have_content("Invalid email or password")
+      expect(page.current_url).to eq(sign_in_url)
+
+    end
+
+    scenario "cant sign in if not a part of this subdomain" do
+      other_account = FactoryGirl.create(:account)
+
+      visit subscribem.root_url(:subdomain => account.subdomain)
+      expect(page.current_url).to eq(sign_in_url)
+      expect(page).to have_content("Please sign in.")
+
+      fill_in "Email", with: other_account.owner.email
       fill_in "Password", with: "password"
       click_button "Sign In"
       expect(page).to have_content("Invalid email or password")
