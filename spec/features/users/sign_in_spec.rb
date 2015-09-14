@@ -16,5 +16,30 @@ feature "User Sign In" do
       expect(page.current_url).to eq(root_url)
 
     end
+
+    scenario "attempts sign in with an invalid password and fails" do
+      visit subscribem.root_url(:subdomain => account.subdomain)
+      expect(page.current_url).to eq(sign_in_url)
+      expect(page).to have_content("Please sign in.")
+      fill_in "Email", with: account.owner.email
+      fill_in "Password", with: "drowssap"
+      click_button "Sign In"
+      expect(page).to have_content("Invalid email or password")
+      expect(page.current_url).to eq(sign_in_url)
+
+    end
+
+    scenario "attempts sign in with an invalid email address and fails" do
+      visit root_url
+      expect(page.current_url).to eq(sign_in_url)
+      expect(page).to have_content("Please sign in.")
+
+      fill_in "Email", with: "foot@example.com"
+      fill_in "Password", with: "password"
+      click_button "Sign In"
+      expect(page).to have_content("Invalid email or password")
+      expect(page.current_url).to eq(sign_in_url)
+
+    end
   end
 end
